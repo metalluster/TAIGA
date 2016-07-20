@@ -11,7 +11,6 @@ import java.util.List;
 public class TickTaskHandler {
     private List<TickTask> tickTasks = new ArrayList<TickTask>();
 
-
     private TickTaskHandler() {
     }
 
@@ -24,7 +23,7 @@ public class TickTaskHandler {
         for (Iterator<TickTask> iterator = tickTasks.iterator(); iterator.hasNext(); ) {
             TickTask task = iterator.next();
 
-            if (e.side == task.getSide()) {
+            if (e.side == task.getSide() || task.getSide() == null) {
                 if (task.tickRun()) {
                     iterator.remove();
                 }
