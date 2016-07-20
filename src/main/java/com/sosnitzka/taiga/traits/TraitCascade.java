@@ -30,7 +30,7 @@ public class TraitCascade extends AbstractTrait {
                 if (r == 1) y += d;
                 if (r == 2) z += d;
                 BlockPos nextBlock = new BlockPos(x, y, z);
-                if (world.getBlockState(nextBlock) == world.getBlockState(pos)) {
+                if (world.getBlockState(nextBlock).equals(world.getBlockState(pos))) {
                     world.destroyBlock(nextBlock, true);
                     sx = x = nextBlock.getX();
                     sy = y = nextBlock.getY();
