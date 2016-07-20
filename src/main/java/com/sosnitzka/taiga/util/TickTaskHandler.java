@@ -20,11 +20,14 @@ public class TickTaskHandler {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.ServerTickEvent e) {
+    public void onTick(TickEvent e) {
         for (Iterator<TickTask> iterator = tickTasks.iterator(); iterator.hasNext(); ) {
             TickTask task = iterator.next();
-            if (task.tickRun()) {
-                iterator.remove();
+
+            if (e.side == task.getSide()) {
+                if (task.tickRun()) {
+                    iterator.remove();
+                }
             }
         }
     }
