@@ -5,8 +5,8 @@ import com.sosnitzka.taiga.proxy.ServerProxy;
 import com.sosnitzka.taiga.recipes.Crafting;
 import com.sosnitzka.taiga.recipes.Smelting;
 import com.sosnitzka.taiga.util.FuelHandler;
+import com.sosnitzka.taiga.util.TickTaskHandler;
 import com.sosnitzka.taiga.world.ZWorldGen;
-import net.minecraft.item.Item;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -76,7 +76,7 @@ public class TAIGA {
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent e) {
-
+        MinecraftForge.EVENT_BUS.register(TickTaskHandler.getInstance());
     }
 
     /**
