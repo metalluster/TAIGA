@@ -1,14 +1,11 @@
 package com.sosnitzka.taiga.traits;
 
-import com.sosnitzka.taiga.util.TickTask;
-import com.sosnitzka.taiga.util.TickTaskHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
 import slimeknights.tconstruct.library.traits.AbstractTrait;
 import slimeknights.tconstruct.library.utils.ToolHelper;
 
@@ -53,15 +50,7 @@ public class TraitCascade extends AbstractTrait {
                 }
 
             }
-            for (int i = 0; i < posliste.size(); i++) {
-                final int finalI = i;
-                TickTaskHandler.getInstance().addTask(new TickTask(2 + (i * 15), Side.CLIENT, new Runnable() {
-                    @Override
-                    public void run() {
-                        world.destroyBlock(posliste.get(finalI), true);
-                    }
-                }));
-            }
+
         }
     }
 

@@ -103,6 +103,7 @@ public class Items {
             }
         }
 
+
         OreDictionary.registerOre("nuggetIron", iron_nugget);
         OreDictionary.registerOre("ingotIron", slagironIngot);
         OreDictionary.registerOre("ingotGold", slaggoldIngot);

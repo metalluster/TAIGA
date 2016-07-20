@@ -48,7 +48,7 @@ public class TAIGA {
         Alloys.register();
 
         // ARCANE ORES
-        registerTinkerMaterial("Tiberium", tiberium, tiberiumFluid, 223, 6.2f, 8.35f, 0.63f, 50, 50, OBSIDIAN, false, true);
+        registerTinkerMaterial("Tiberium", tiberium, tiberiumFluid, 223, 6.2f, 8.35f, 0.63f, 50, 50, OBSIDIAN, true, true);
         registerTinkerMaterial("Rubium", rubium, rubiumFluid, 351, 5.15f, 7.00f, 1.05f, -100, 250, COBALT, false, true);
         registerTinkerMaterial("Prometheum", prometheum, prometheumFluid, 539, 3.6f, 6.60f, 0.90f, 0, 150, TITANITE, false, true);
         registerTinkerMaterial("Arcanite", arcanite, arcaniteFluid, 698, 4.3f, 7.88f, 0.85f, -50, 150, METEORITE, false, true);
