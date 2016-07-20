@@ -1,7 +1,5 @@
 package com.sosnitzka.taiga.traits;
 
-import com.sosnitzka.taiga.util.TickTask;
-import com.sosnitzka.taiga.util.TickTaskHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -27,18 +25,14 @@ public class TraitCascade extends AbstractTrait {
             sy = y = pos.getY();
             sz = z = pos.getZ();
             for (int i = random.nextInt((int) (ToolHelper.getCurrentDurability(tool) * 1.5f)); i > 0; i--) {
-                TickTaskHandler.getInstance().addTask(new TickTask(20, new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                }));
+
                 int r = random.nextInt(3);
                 int d = random.nextBoolean() ? 1 : -1;
                 if (r == 0) x += d;
                 if (r == 1) y += d;
                 if (r == 2) z += d;
                 BlockPos nextBlock = new BlockPos(x, y, z);
-                if (world.getBlockState(nextBlock) == world.getBlockState(pos)) {
+                if (world.getBlockState(nextBlock).equals(world.getBlockState(pos))) {
                     world.destroyBlock(nextBlock, true);
                     sx = x = nextBlock.getX();
                     sy = y = nextBlock.getY();

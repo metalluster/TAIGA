@@ -9,7 +9,7 @@ public class TickTask {
     private int ticks;
     private Side side;
 
-    public TickTask(int targetTicks, Runnable runnable, Side side) {
+    public TickTask(int targetTicks, Side side, Runnable runnable) {
         if (targetTicks <= 0)
             throw new IllegalArgumentException("Amount of ticks must be >0");
 
@@ -18,8 +18,8 @@ public class TickTask {
         this.side = side;
     }
 
-    public TickTask(Runnable runnable, Side side) {
-        this(1, runnable, side);
+    public TickTask(Side side, Runnable runnable) {
+        this(1, side, runnable);
     }
 
     public boolean tickRun() {
