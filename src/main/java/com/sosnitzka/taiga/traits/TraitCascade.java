@@ -55,16 +55,14 @@ public class TraitCascade extends AbstractTrait {
             }
             for (int i = 0; i < posliste.size(); i++) {
                 final int finalI = i;
-                TickTaskHandler.getInstance().addTask(new TickTask(5, Side.CLIENT, new Runnable() {
+                TickTaskHandler.getInstance().addTask(new TickTask(2 + (i * 15), Side.CLIENT, new Runnable() {
                     @Override
                     public void run() {
                         world.destroyBlock(posliste.get(finalI), true);
                     }
                 }));
             }
-
         }
-
     }
 
     private float calcBonus(ItemStack tool) {
