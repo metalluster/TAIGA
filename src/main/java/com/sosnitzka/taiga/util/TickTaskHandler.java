@@ -10,45 +10,27 @@ import java.util.Iterator;
 import java.util.List;
 
 public class TickTaskHandler {
-    private List<TickTask> clientTickTasks = new ArrayList<TickTask>();
-    private List<TickTask> serverTickTasks = new ArrayList<TickTask>();
+    private List<TickTask> tickTasks = new ArrayList<TickTask>();
+    private Side side;
 
-    private TickTaskHandler() {
-    }
-
-    public static TickTaskHandler getInstance() {
-        return InstanceHolder.INSTANCE;
+    public TickTaskHandler(Side side) {
+        this.side = side;
     }
 
     @SubscribeEvent
     public synchronized void onTick(TickEvent e) {
-        for (Iterator<TickTask> clientIterator = clientTickTasks.iterator(); clientIterator.hasNext(); ) {
-            TickTask task = clientIterator.next();
+        if (e.side == side) {
+            for (Iterator<TickTask> iterator = tickTasks.iterator(); iterator.hasNext(); ) {
+                TickTask task = iterator.next();
 
-            if (task.tickRun()) {
-                clientIterator.remove();
-            }
-        }
-
-        for (Iterator<TickTask> serverIterator = serverTickTasks.iterator(); serverIterator.hasNext(); ) {
-            TickTask task = serverIterator.next();
-
-            if (task.tickRun()) {
-                serverIterator.remove();
+                if (task.tickRun()) {
+                    iterator.remove();
+                }
             }
         }
     }
 
     public void addTask(TickTask tickTask) {
-        if (tickTask.getSide() == Side.CLIENT || tickTask.getSide() == null)
-            clientTickTasks.add(tickTask);
-
-        if (tickTask.getSide() == Side.SERVER || tickTask.getSide() == null)
-            serverTickTasks.add(tickTask);
-
-    }
-
-    private static final class InstanceHolder {
-        static final TickTaskHandler INSTANCE = new TickTaskHandler();
+        tickTasks.add(tickTask);
     }
 }

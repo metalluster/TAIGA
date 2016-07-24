@@ -3,6 +3,7 @@ package com.sosnitzka.taiga.proxy;
 import com.sosnitzka.taiga.Blocks;
 import com.sosnitzka.taiga.Items;
 import com.sosnitzka.taiga.TAIGA;
+import com.sosnitzka.taiga.util.TickTaskHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -15,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fml.relauncher.Side;
 import slimeknights.tconstruct.library.client.MaterialRenderInfo;
 import slimeknights.tconstruct.library.client.texture.MetalTextureTexture;
 import slimeknights.tconstruct.library.materials.Material;
@@ -24,7 +26,8 @@ import java.lang.reflect.Field;
 
 import static com.sosnitzka.taiga.MaterialTraits.*;
 
-public class ClientProxy extends ServerProxy {
+public class ClientProxy extends CommonProxy {
+    private TickTaskHandler taskHandler;
 
     private static void registerBlockModel(Block block) {
         registerItemModel(Item.getItemFromBlock(block));
@@ -107,6 +110,14 @@ public class ClientProxy extends ServerProxy {
             // block-model
             ModelLoader.setCustomStateMapper(block, mapper);
         }
+    }
+
+    @Override
+    public TickTaskHandler getTickHandler() {
+        if (taskHandler == null)
+            taskHandler = new TickTaskHandler(Side.CLIENT);
+
+        return taskHandler;
     }
 
     public static class FluidStateMapper extends StateMapperBase implements ItemMeshDefinition {

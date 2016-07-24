@@ -1,12 +1,15 @@
 package com.sosnitzka.taiga;
 
 import com.google.common.collect.Lists;
-import com.sosnitzka.taiga.proxy.ServerProxy;
+import com.sosnitzka.taiga.network.BlockPosHandler;
+import com.sosnitzka.taiga.network.BlockPosMsg;
+import com.sosnitzka.taiga.proxy.CommonProxy;
 import com.sosnitzka.taiga.recipes.Crafting;
 import com.sosnitzka.taiga.recipes.Smelting;
 import com.sosnitzka.taiga.util.FuelHandler;
-import com.sosnitzka.taiga.util.TickTaskHandler;
 import com.sosnitzka.taiga.world.ZWorldGen;
+import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -14,7 +17,10 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.StringUtils;
 import slimeknights.tconstruct.library.MaterialIntegration;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -36,10 +42,10 @@ public class TAIGA {
 
     public static final String MODID = "taiga";
     public static final String VERSION = "${version}";
-
-    @SidedProxy(clientSide = "com.sosnitzka.taiga.proxy.ClientProxy", serverSide = "com.sosnitzka.taiga.proxy.ServerProxy")
-    public static ServerProxy proxy;
-
+    public static final byte BLOCKPOS_MSG_ID = 33;
+    @SidedProxy(clientSide = "com.sosnitzka.taiga.proxy.ClientProxy", serverSide = "com.sosnitzka.taiga.proxy.CommonProxy")
+    public static CommonProxy proxy;
+    public static SimpleNetworkWrapper simpleNetworkWrapper;
     private List<MaterialIntegration> integrateList = Lists.newArrayList(); // List of materials needed to be integrated
 
     @EventHandler
@@ -51,6 +57,10 @@ public class TAIGA {
         Alloys.register(); // Registers alloying recipes
 
         registerTinkerMaterials(); // Registers materials and associated fluids and stats into tconstruct
+
+        simpleNetworkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel("TAIGA");
+        simpleNetworkWrapper.registerMessage(BlockPosHandler.class, BlockPosMsg.class, BLOCKPOS_MSG_ID, Side.SERVER);
+        simpleNetworkWrapper.registerMessage(BlockPosHandler.class, BlockPosMsg.class, BLOCKPOS_MSG_ID, Side.CLIENT);
     }
 
     @EventHandler
@@ -76,7 +86,7 @@ public class TAIGA {
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent e) {
-        MinecraftForge.EVENT_BUS.register(TickTaskHandler.getInstance());
+        MinecraftForge.EVENT_BUS.register(proxy.getTickHandler());
     }
 
     /**
