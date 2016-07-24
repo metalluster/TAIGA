@@ -18,7 +18,7 @@ public class TickTaskHandler {
     }
 
     @SubscribeEvent
-    public synchronized void onTick(TickEvent e) {
+    public void onTick(TickEvent e) {
         if (e.side == side) {
             for (Iterator<TickTask> iterator = tickTasks.iterator(); iterator.hasNext(); ) {
                 TickTask task = iterator.next();
